@@ -296,9 +296,20 @@ END AS income_levels
 FROM ecom_data ;
 
 -- COMMAND 41 :  Create a view for high income customers. 
+CREATE VIEW high_income AS
+SELECT customer_id , monthly_income
+FROM ecom_data
+WHERE monthly_income > 50000 ;
+
+SELECT * FROM high_income ;
+
 -- COMMAND 42 :  Create an index on monthly_income. 
+CREATE INDEX index_monthly_income
+ON ecom_data (monthly_income) ;
 -- COMMAND 43 :  Create a composite index on city_tier and gender.
 -- COMMAND 44 :  Write a query to drop an index. 
+DROP INDEX index_monthly_income 
+ON ecom_data ;
 -- COMAND 45 : Explain how indexing affects query performance using an example query.
 -- COMMAND 46 :  Write a self join style analytical comparison query on spending behavior.
 
