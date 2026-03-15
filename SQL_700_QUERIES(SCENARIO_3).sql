@@ -173,8 +173,51 @@ GROUP BY shopping_preference
 HAVING AVG(avg_online_spend) < 15000 ;
 
 -- COMMAND 128 :  Use HAVING to filter groups by average income.
+SELECT city_tier,AVG(monthly_income)
+FROM ecom_data
+GROUP BY city_tier 
+HAVING AVG(monthly_income) > 50000 ;
 
+-- COMMAND 129 :  Create a subquery to find customers earning LEASS than average income.
+SELECT *
+FROM ecom_data
+WHERE monthly_income < (SELECT AVG(monthly_income) FROM ecom_data) ;
 
+-- COMMAND 130 :  Find customers whose online spend is above average.
+SELECT *
+FROM ecom_data
+WHERE avg_online_spend < (SELECT AVG(avg_online_spend) FROM ecom_data) ;
+
+-- COMMAND 131 :  Find customers whose store spend is ABOVE average.
+SELECT *
+FROM ecom_data
+WHERE avg_store_spend < (SELECT AVG(avg_store_spend) FROM ecom_data) ;
+
+-- COMMAND 132 :  Create a query using CASE to categorize income levels.
+SELECT *,
+CASE
+    WHEN monthly_income < 20000  THEN 'LOW'
+    WHEN monthly_income <= 50000 THEN 'MEDIUM'
+    WHEN monthly_income > 50000  THEN 'HIGH'
+END AS income_levels
+FROM ecom_data ;
+
+-- COMMAND 133 : Create a view for high income customers. 
+CREATE VIEW high_income AS
+SELECT customer_id , monthly_income
+FROM ecom_data
+WHERE monthly_income > 60000 ;
+
+-- COMMAND 134 : Create an index on monthly_income.
+CREATE INDEX index_monthly_income
+ON ecom_data (monthly_income) ;
+
+-- COMMAND 135 :  Create a composite index on city_tier and gender.
+-- COMMAND 136 : Write a query to drop an index.
+DROP INDEX index_monthly_income ON ecom_data ;
+
+-- COMMAND 137 : Explain how indexing affects query performance using an example query.
+-- COMMAND 138 : Write a self join style analytical comparison query on spending behavior
 
 
 
